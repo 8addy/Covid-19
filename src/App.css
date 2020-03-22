@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 80%;
+  margin: 30px auto;
+  text-align: center;
+}
+
+.boxes {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px 0;
+}
+h1 {
+  text-align: center;
+  color: #827070;
+}
+.box {
+  background: #eee;
+  padding: 20px 30px;
+  margin: 10px 20px;
+  width: 200px;
+  text-align: center;
+}
+p {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+h3 {
+  font-size: 30px;
+  font-weight: 100;
+  margin-bottom: 5px;
+  color: rgb(102, 102, 102);
+}
+.confirmed {
+  border: 1.5px solid rgb(56, 68, 228);
+  box-shadow: 1px 1px 12px -1px rgb(30, 43, 226);
+}
+.deaths {
+  border: 1.5px solid rgb(228, 56, 56);
+  box-shadow: 1px 1px 12px -1px rgb(226, 30, 30);
+}
+.recovered {
+  border: 1.5px solid rgb(56, 228, 56);
+  box-shadow: 1px 1px 12px -1px rgb(30, 226, 30);
+}
+
+.confirmed p {
+  color: rgb(56, 68, 228);
+}
+.deaths p {
+  color: rgb(228, 56, 56);
+}
+.recovered p {
+  color: rgb(56, 228, 56);
+}
+.select {
+  margin: 30px 0 0;
+  padding: 8px;
+  border: 2px solid #d6d2d2;
+  color: gray;
+  font-size: 18px;
+  font-weight: 100;
+  outline: none;
+}
