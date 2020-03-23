@@ -37,7 +37,7 @@ const Chart = props => {
 
   return (
     <div>
-      <Doughnut data={data} options={{}} />
+      <Doughnut data={data} options={{ responsive: true }} />
     </div>
   );
 };
