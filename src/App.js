@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import Chart from './components/Chart';
+import { Box } from './components/Box';
 
 class App extends Component {
   constructor(props) {
@@ -8,7 +10,8 @@ class App extends Component {
       confirmed: 0,
       recovered: 0,
       deaths: 0,
-      countries: []
+      countries: [],
+      loading: false
     };
     this.API = 'https://covid19.mathdro.id/api';
   }
@@ -18,12 +21,14 @@ class App extends Component {
   }
 
   getData = async () => {
+    this.setState({ loading: true });
     const responseCountries = await fetch(`${this.API}/countries`);
     const countriesData = await responseCountries.json();
     const response = await fetch(`${this.API}`);
     const resData = await response.json();
     const countriesArray = Object.keys(countriesData.countries);
     this.setState({
+      loading: false,
       confirmed: resData.confirmed.value,
       recovered: resData.recovered.value,
       deaths: resData.deaths.value,
@@ -43,9 +48,11 @@ class App extends Component {
 
   fetchByCountry = async e => {
     if (e.target.value === 'worldwide') {
+      this.setState({ loading: true });
       const response = await fetch(`${this.API}`);
       const resData = await response.json();
       this.setState({
+        loading: false,
         confirmed: resData.confirmed.value,
         recovered: resData.recovered.value,
         deaths: resData.deaths.value
@@ -53,15 +60,18 @@ class App extends Component {
       return;
     }
     try {
+      this.setState({ loading: true });
       const response = await fetch(`${this.API}/countries/${e.target.value}`);
       const resData = await response.json();
       this.setState({
+        loading: false,
         confirmed: resData.confirmed.value,
         recovered: resData.recovered.value,
         deaths: resData.deaths.value
       });
     } catch (error) {
       this.setState({
+        loading: false,
         confirmed: 'No data available!!',
         recovered: 'No data available!!',
         deaths: 'No data available!!'
@@ -70,29 +80,28 @@ class App extends Component {
   };
 
   render() {
-    const { confirmed, recovered, deaths } = this.state;
+    const { confirmed, recovered, deaths, loading } = this.state;
     return (
-      <div className="container">
-        <h1>Covid-19 news tracking</h1>
-        <select onChange={this.fetchByCountry} className="select">
-          <option value="worldwide">Worldwide</option>
-          {this.getCountries()}
-        </select>
-        <div className="boxes">
-          <div className="box confirmed">
-            <h3>Confirmed</h3>
-            <p>{confirmed && confirmed}</p>
+      <>
+        {loading && (
+          <div className="loading">
+            <div className="loader">Loading...</div>
           </div>
-          <div className="box deaths">
-            <h3>Deaths</h3>
-            <p>{deaths && deaths}</p>
+        )}
+        <div className="container">
+          <h1>Covid-19 news tracking</h1>
+          <select onChange={this.fetchByCountry} className="select">
+            <option value="worldwide">Worldwide</option>
+            {this.getCountries()}
+          </select>
+          <div className="boxes">
+            <Box class="confirmed" label="Confirmed" value={confirmed} />
+            <Box class="deaths" label="Deaths" value={deaths} />
+            <Box class="recovered" label="Recovered" value={recovered} />
           </div>
-          <div className="box recovered">
-            <h3>Recovered</h3>
-            <p>{recovered && recovered}</p>
-          </div>
+          <Chart values={{ confirmed, deaths, recovered }} />
         </div>
-      </div>
+      </>
     );
   }
 }
