@@ -7,12 +7,45 @@ body {
   position: relative;
 }
 
+.dark-mode {
+  background-color: #171717;
+}
+
+.dark-boxes {
+  background: #333 !important;
+}
+.white-text {
+  color: #fff !important;
+}
+
 .container {
   width: 80%;
   padding: 40px 0;
   margin: 0 auto;
   text-align: center;
   min-height: 100vh;
+}
+
+.react-switch img {
+  width: 100%;
+  padding: 2px 4px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.navbar {
+  height: 60px;
+  box-shadow: 0px 0px 5px 0px gray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.navbar-dark {
+  background-color: black;
+  color: #fff;
 }
 
 .boxes {
@@ -22,7 +55,7 @@ body {
 }
 h1 {
   text-align: center;
-  color: #827070;
+  color: #0088fe;
 }
 .box {
   background: #eee;
@@ -96,6 +129,10 @@ h3 {
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
+}
+.dark-select {
+  background-color: black;
+  color: #ddd;
 }
 @-webkit-keyframes load4 {
   0%,

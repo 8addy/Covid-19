@@ -37,7 +37,17 @@ const Chart = props => {
 
   return (
     <div>
-      <Doughnut data={data} options={{ responsive: true }} />
+      <Doughnut
+        data={data}
+        options={{
+          legend: {
+            labels: {
+              fontColor: props.checked ? '#fff' : '#333',
+              fontSize: 17
+            }
+          }
+        }}
+      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Chart from './components/Chart';
 import { Box } from './components/Box';
+import Switch from 'react-switch';
 
 class App extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class App extends Component {
       deaths: 0,
       countries: [],
       loading: false,
-      optionState: 'Morocco'
+      optionState: 'Morocco',
+      checked: false
     };
     this.API = 'https://covid19.mathdro.id/api';
   }
@@ -81,33 +83,77 @@ class App extends Component {
     }
   };
 
+  changeThemeHandler = () => {
+    this.setState(prevState => {
+      return { checked: !prevState.checked };
+    });
+  };
+
   render() {
-    const { confirmed, recovered, deaths, loading, optionState } = this.state;
+    const {
+      confirmed,
+      recovered,
+      deaths,
+      loading,
+      optionState,
+      checked
+    } = this.state;
     return (
-      <>
+      <div className={checked ? 'dark-mode' : null}>
         {loading && (
           <div className="loading">
             <div className="loader">Loading...</div>
           </div>
         )}
-        <div className="container">
+        <nav className={checked ? 'navbar navbar-dark' : 'navbar'}>
           <h1>Covid-19 news tracking</h1>
+          <label>
+            <Switch
+              onChange={this.changeThemeHandler}
+              checked={checked}
+              className="react-switch"
+              handleDiameter={28}
+              offColor="#08f"
+              onColor="#0ff"
+              offHandleColor="#0ff"
+              onHandleColor="#08f"
+              uncheckedIcon={<img src={require('./images/dark.png')} alt="" />}
+              checkedIcon={<img src={require('./images/white.png')} alt="" />}
+            />
+          </label>
+        </nav>
+        <div className="container">
           <select
             value={optionState}
             onChange={this.fetchByCountry}
-            className="select"
+            className={checked ? 'select dark-select' : 'select'}
           >
             <option value="worldwide">Worldwide</option>
             {this.getCountries()}
           </select>
           <div className="boxes">
-            <Box class="confirmed" label="Confirmed" value={confirmed} />
-            <Box class="deaths" label="Deaths" value={deaths} />
-            <Box class="recovered" label="Recovered" value={recovered} />
+            <Box
+              class={checked ? 'confirmed dark-boxes' : 'confirmed'}
+              label="Confirmed"
+              value={confirmed}
+              checked={checked}
+            />
+            <Box
+              class={checked ? 'deaths dark-boxes' : 'deaths'}
+              label="Deaths"
+              value={deaths}
+              checked={checked}
+            />
+            <Box
+              class={checked ? 'recovered dark-boxes' : 'recovered'}
+              label="Recovered"
+              value={recovered}
+              checked={checked}
+            />
           </div>
-          <Chart values={{ confirmed, deaths, recovered }} />
+          <Chart values={{ confirmed, deaths, recovered }} checked={checked} />
         </div>
-      </>
+      </div>
     );
   }
 }

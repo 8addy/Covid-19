@@ -5,7 +5,7 @@ export const Box = React.memo(props => {
 
   return (
     <div className={classes}>
-      <h3>{props.label}</h3>
+      <h3 className={props.checked ? 'white-text' : ''}>{props.label}</h3>
       <p>{props.value && props.value}</p>
     </div>
   );
