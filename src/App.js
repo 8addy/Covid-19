@@ -19,6 +19,18 @@ class App extends Component {
     this.API = 'https://covid19.mathdro.id/api';
   }
 
+  componentWillMount() {
+    const isAlreadyChecked = localStorage.getItem('checked');
+    this.setState({
+      checked:
+        isAlreadyChecked !== null
+          ? isAlreadyChecked === 'true'
+            ? true
+            : false
+          : false
+    });
+  }
+
   componentDidMount() {
     this.getData();
   }
@@ -87,6 +99,7 @@ class App extends Component {
     this.setState(prevState => {
       return { checked: !prevState.checked };
     });
+    localStorage.setItem('checked', this.state.checked);
   };
 
   render() {
@@ -106,7 +119,7 @@ class App extends Component {
           </div>
         )}
         <nav className={checked ? 'navbar navbar-dark' : 'navbar'}>
-          <h1>Covid-19 news tracking</h1>
+          <h1>Covid-19 Statistics</h1>
           <label>
             <Switch
               onChange={this.changeThemeHandler}
