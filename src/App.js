@@ -11,7 +11,8 @@ class App extends Component {
       recovered: 0,
       deaths: 0,
       countries: [],
-      loading: false
+      loading: false,
+      optionState: 'Morocco'
     };
     this.API = 'https://covid19.mathdro.id/api';
   }
@@ -24,7 +25,7 @@ class App extends Component {
     this.setState({ loading: true });
     const responseCountries = await fetch(`${this.API}/countries`);
     const countriesData = await responseCountries.json();
-    const response = await fetch(`${this.API}`);
+    const response = await fetch(`${this.API}/countries/Morocco`);
     const resData = await response.json();
     const countriesArray = Object.keys(countriesData.countries);
     this.setState({
@@ -47,6 +48,7 @@ class App extends Component {
   };
 
   fetchByCountry = async e => {
+    this.setState({ optionState: e.target.value });
     if (e.target.value === 'worldwide') {
       this.setState({ loading: true });
       const response = await fetch(`${this.API}`);
@@ -80,7 +82,7 @@ class App extends Component {
   };
 
   render() {
-    const { confirmed, recovered, deaths, loading } = this.state;
+    const { confirmed, recovered, deaths, loading, optionState } = this.state;
     return (
       <>
         {loading && (
@@ -90,7 +92,11 @@ class App extends Component {
         )}
         <div className="container">
           <h1>Covid-19 news tracking</h1>
-          <select onChange={this.fetchByCountry} className="select">
+          <select
+            value={optionState}
+            onChange={this.fetchByCountry}
+            className="select"
+          >
             <option value="worldwide">Worldwide</option>
             {this.getCountries()}
           </select>
